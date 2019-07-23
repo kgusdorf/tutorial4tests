@@ -1,0 +1,23 @@
+import * as EthereumController from "@decentraland/EthereumController"
+let eth = EthereumController
+
+const myWallet = "0x219bb791955d1A3556AD4eB5DbcCbC64f60DB23B"
+const enterPrice = 0.001
+
+function payment(){
+  executeTask(async () => {
+    try {
+      if (!await eth.requirePayment(myWallet, enterPrice, "ETH")) throw new Error("FAILURE")
+      button.getComponent(BoxShape).visible = !button.getComponent(BoxShape).visible
+    } catch (e) {
+      log(e.message)
+    }
+  })
+}
+
+const button = new Entity()
+button.addComponent(new BoxShape())
+button.addComponent(new OnClick( e => {
+    payment()
+  }))
+engine.addEntity(button)
